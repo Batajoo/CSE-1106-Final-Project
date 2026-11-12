@@ -52,6 +52,8 @@ int main(int argc, char *argv[]){
 
     printf("The average temperature is %.2f.\n", averageTemperature);
     bool reRunProgram = true;
+
+        printf("------------------------------------------------\n");
     do {
         int classRoomTemperatureInput;
         printf("Your current acceptable temperature range is %d to %d.\n", acceptableTemperatureRange[0], acceptableTemperatureRange[1]);
@@ -102,10 +104,11 @@ int main(int argc, char *argv[]){
         
         getchar(); // waits for Enter key to end the program
         gpioWrite(PIN, 0); // LED OFF
-
+        
         printf("Enter Y or y if you want to rerun the program or anything else to exit: ");
         int reRunProgramInput = getchar();
         reRunProgram = reRunProgramInput == 'Y' || reRunProgramInput == 'y';
+        printf("------------------------------------------------\n");
     } while (reRunProgram);
 
     double newAverageTemperature = getAverageTemperature(file);
