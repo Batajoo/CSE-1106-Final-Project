@@ -1,0 +1,14 @@
+1. What was your primary contribution to the project?
+-> My primary contribution was to create the main.c file and make it fully functional.
+
+2. What was the most challenging technical problem your team encountered?
+-> During testing the main.c program, we ran into a problem where the led was not turning off even though the program had already terminated. Main problem was that we were not turning the light off or disabling the lights after it is turned on so fixing that too very much time.
+
+3. How did your team use testing or debugging to solve a problem?
+-> We used the range based testing where we picked up 5 temperature points, one smaller than the accepable, one greater than the accepable, and two at each acceptable range end points and one in the middle.
+
+4. Which skills from CSE 1106 were most useful?
+-> The skills to collaborate with others, and to understand how breadboard works was really most useful for me.
+
+5. What would you improve if you have more time?
+-> If I had more time, then I could have added one more light to the circuit so that went the use puts appropriate temperature then it would keep glowing the green light and if not in appropriate range it would glow the red light because current I have only one light that shows the warning but adding another light would need a rework on the circuit design and needed more time.
