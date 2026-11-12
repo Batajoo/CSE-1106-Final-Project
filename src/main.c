@@ -51,58 +51,70 @@ int main(int argc, char *argv[]){
     fclose(file);
 
     printf("The average temperature is %.2f.\n", averageTemperature);
+    bool reRunProgram = true;
+    do {
+        int classRoomTemperatureInput;
+        printf("Your current acceptable temperature range is %d to %d.\n", acceptableTemperatureRange[0], acceptableTemperatureRange[1]);
+        printf("Enter the classroom temperature: ");
+        scanf("%d", &classRoomTemperatureInput);
 
-    int classRoomTemperatureInput;
-    printf("Your current acceptable temperature range is %d to %d.\n", acceptableTemperatureRange[0], acceptableTemperatureRange[1]);
-    printf("Enter the classroom temperature: ");
-    scanf("%d", &classRoomTemperatureInput);
-
-    printf("Do you want to change the acceptable temperature? (Y/N)");
-    char changeTemperatureInput;
-    scanf(" %c", &changeTemperatureInput);
-
-    printf("\n");
-
-    while (changeTemperatureInput != 'Y' && changeTemperatureInput != 'y' && changeTemperatureInput != 'N' && changeTemperatureInput != 'n') {
-        printf("Invalid input. Please enter Y or N: ");
+        printf("Do you want to change the acceptable temperature? (Y/N)");
+        char changeTemperatureInput;
         scanf(" %c", &changeTemperatureInput);
-    }
 
-    if (changeTemperatureInput == 'Y' || changeTemperatureInput == 'y') {
-        int newMinimumTemperature;
-        int newMaximumTemperature;
-        printf("Enter the new minimum temperature: ");
-        scanf("%d", &newMinimumTemperature);
-        printf("Enter the new maximum temperature: ");
-        scanf("%d", &newMaximumTemperature);
-        acceptableTemperatureRange[0] = newMinimumTemperature;
-        acceptableTemperatureRange[1] = newMaximumTemperature;
-    }
+        printf("\n");
 
-    printf("\n");
-    
-    saveTemperatureToFile(classRoomTemperatureInput);
-    bool isTemperatureAcceptableResult = isTemperatureAcceptable(classRoomTemperatureInput, acceptableTemperatureRange);
+        while (changeTemperatureInput != 'Y' && changeTemperatureInput != 'y' && changeTemperatureInput != 'N' && changeTemperatureInput != 'n') {
+            printf("Invalid input. Please enter Y or N: ");
+            scanf(" %c", &changeTemperatureInput);
+        }
 
-    printf("------------------------------------------------\n");
-    if (isTemperatureAcceptableResult) {
-        printf("Normal Temperature.\n");
-        gpioWrite(PIN, 0); // LED OFF
-    } else {
-        gpioWrite(PIN, 1); // LED ON
-        printf("Warning Temperature!\n");
+        if (changeTemperatureInput == 'Y' || changeTemperatureInput == 'y') {
+            int newMinimumTemperature;
+            int newMaximumTemperature;
+            printf("Enter the new minimum temperature: ");
+            scanf("%d", &newMinimumTemperature);
+            printf("Enter the new maximum temperature: ");
+            scanf("%d", &newMaximumTemperature);
+            acceptableTemperatureRange[0] = newMinimumTemperature;
+            acceptableTemperatureRange[1] = newMaximumTemperature;
+        }
+
+        printf("\n");
         
-    }
-    printf("------------------------------------------------\n");
+        saveTemperatureToFile(classRoomTemperatureInput);
+        bool isTemperatureAcceptableResult = isTemperatureAcceptable(classRoomTemperatureInput, acceptableTemperatureRange);
 
-    file = fopen("../data/temperature_log.csv", "r");
+        printf("------------------------------------------------\n");
+        if (isTemperatureAcceptableResult) {
+            printf("Normal Temperature.\n");
+            gpioWrite(PIN, 0); // LED OFF
+            getchar();
+        } else {
+            gpioWrite(PIN, 1); // LED ON
+            printf("Warning Temperature!\n");
+            getchar();
+            
+        }
+        printf("------------------------------------------------\n");
+
+        file = fopen("../data/temperature_log.csv", "r");
+        
+        getchar(); // waits for Enter key to end the program
+        gpioWrite(PIN, 0); // LED OFF
+
+        printf("Enter Y or y if you want to rerun the program or anything else to exit: ");
+        int reRunProgramInput = getchar();
+        reRunProgram = reRunProgramInput == 'Y' || reRunProgramInput == 'y';
+    } while (reRunProgram);
+
     double newAverageTemperature = getAverageTemperature(file);
     fclose(file);
 
 
     printf("The new average temperature is %.2f.\n", newAverageTemperature);
     printf("Press enter to end the program.\n");
-    getchar(); // waits for Enter key to end the program
-    gpioTerminate();
+
+        gpioTerminate();
     return 0;
 }
