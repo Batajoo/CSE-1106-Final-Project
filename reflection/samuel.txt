@@ -1,10 +1,14 @@
 1. What was your primary contribution to the project?
-   My primary contribution to the project was wiring the breadboard to the raspberry Pi, creating the README file, and typing up the requirements      for the project.
+-> My primary contribution to the project was wiring the breadboard to the raspberry Pi, creating the README file, and typing up the requirements      for the project.
+
 2. What was the most challenging technical problem your team encountered?
-   -> The most challenging part of the project was trying to figure out why the warning light was not turning off when the program ended.
+-> The most challenging part of the project was trying to figure out why the warning light was not turning off when the program ended.
+
 3. How did your team use testing or debugging to solve a problem?
-   -> We used testing to check if our temperature range was being implemented properly. We used temperatures that were off the acceptable range by        1 degree to see if we were going to get a warning.
+-> We used testing to check if our temperature range was being implemented properly. We used temperatures that were off the acceptable range by        1 degree to see if we were going to get a warning.
+
 4. Which skills from CSE 1106 were most useful?
-   -> The most important skills from CSE 1106 were testing, circuit wiring, and raspberry Pi.
+-> The most important skills from CSE 1106 were testing, circuit wiring, and raspberry Pi.
+
 5. What would you improve if you had more time?
-   -> If we had more time, we would probably add a second light that would light up green if the temperature was within the acceptable range.
+-> If we had more time, we would probably add a second light that would light up green if the temperature was within the acceptable range.
