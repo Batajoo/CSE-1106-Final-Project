@@ -4,6 +4,7 @@
 #include <pigpio.h>
 #define PIN 17
 
+
 int isTemperatureAcceptable(int temperature, int acceptableTemperatureRange[]) {
     return temperature >= acceptableTemperatureRange[0] && temperature <= acceptableTemperatureRange[1];
 }
@@ -34,8 +35,12 @@ bool saveTemperatureToFile(int temperature) {
 }
 
 int main(int argc, char *argv[]){
+    // initializing the GPIO and port pin number
+    gpioInitialise();
+    gpioSetMode(PIN, PI_OUTPUT);
+
     int acceptableTemperatureRange[] = {68, 76};
-    
+
     FILE *file = fopen("../data/temperature_log.csv", "r");
     if (file == NULL) {
         printf("Failed to open temperature log file.\n");
@@ -56,6 +61,8 @@ int main(int argc, char *argv[]){
     char changeTemperatureInput;
     scanf(" %c", &changeTemperatureInput);
 
+    printf("\n");
+
     while (changeTemperatureInput != 'Y' && changeTemperatureInput != 'y' && changeTemperatureInput != 'N' && changeTemperatureInput != 'n') {
         printf("Invalid input. Please enter Y or N: ");
         scanf(" %c", &changeTemperatureInput);
@@ -71,31 +78,31 @@ int main(int argc, char *argv[]){
         acceptableTemperatureRange[0] = newMinimumTemperature;
         acceptableTemperatureRange[1] = newMaximumTemperature;
     }
+
+    printf("\n");
     
     saveTemperatureToFile(classRoomTemperatureInput);
     bool isTemperatureAcceptableResult = isTemperatureAcceptable(classRoomTemperatureInput, acceptableTemperatureRange);
 
+    printf("------------------------------------------------\n");
     if (isTemperatureAcceptableResult) {
-        printf("The temperature is within the acceptable range.\n");
+        printf("Normal Temperature.\n");
         gpioWrite(PIN, 0); // LED OFF
     } else {
         gpioWrite(PIN, 1); // LED ON
-        printf("The temperature is outside the acceptable range.\n");
+        printf("Warning Temperature!\n");
+        
     }
+    printf("------------------------------------------------\n");
 
     file = fopen("../data/temperature_log.csv", "r");
     double newAverageTemperature = getAverageTemperature(file);
     fclose(file);
 
 
-
     printf("The new average temperature is %.2f.\n", newAverageTemperature);
-    gpioInitialise();
-    gpioSetMode(PIN, PI_OUTPUT);
-    gpioWrite(PIN, 1); // LED ON
-    getchar();  // waits for Enter key
-    gpioWrite(PIN, 0); // LED OFF
-    getchar(); // waits for Enter key
+    printf("Press enter to end the program.\n");
+    getchar(); // waits for Enter key to end the program
     gpioTerminate();
     return 0;
 }
